@@ -1,10 +1,35 @@
-from pathlib import Path
-from src.preprocessing.audio_preprocessor import AudioPreprocessor
+import pandas as pd
 
-processor = AudioPreprocessor()
+from src.retrieval.conversation_retriever import ConversationRetriever
+from src.retrieval.ranking import EvidenceRanker
 
-audio_path = Path(r"C:\Users\mijaj\python\projects\hackerrank_orchestrate\dataset\media\audio\vn_001.mp3")
 
-info = processor.preprocess(audio_path)
+messages = pd.read_csv(
+    "dataset/messages.csv"
+)
 
-print(info)
+
+retriever = ConversationRetriever(
+    "dataset"
+)
+
+
+ranker = EvidenceRanker(
+    top_k=3
+)
+
+
+row = messages.iloc[0]
+
+
+result = retriever.retrieve(row)
+
+
+evidence = ranker.rank(
+    result["user_history"],
+    result["events"]
+)
+
+
+print("Evidence IDs:")
+print(evidence)
