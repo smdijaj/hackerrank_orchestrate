@@ -1,12 +1,7 @@
 class ConfidenceEngine:
     """
-    Calculates confidence score for routing decisions.
-    Value range: 0 to 1
+    Generates calibrated confidence scores.
     """
-
-    def __init__(self):
-        pass
-
 
     def calculate(
         self,
@@ -16,43 +11,60 @@ class ConfidenceEngine:
         evidence_ids=None
     ):
 
-        score = 0.5
+        scores = {
+
+            "urgent": 0.90,
+
+            "payment": 0.85,
+
+            "scam": 0.95,
+
+            "personal": 0.75,
+
+            "business_update": 0.70,
+
+            "promotion": 0.65,
+
+            "forward": 0.60,
+
+            "greeting": 0.55,
+
+            "spam": 0.90,
+
+            "event": 0.70,
+
+            "unknown": 0.50
+
+        }
 
 
-        # Strong safety decision
-        if message_type == "scam":
-            score += 0.35
-
-
-        # Urgent messages are easier to classify
-        elif message_type == "urgent":
-            score += 0.25
-
-
-        # Evidence improves confidence
-        if evidence_ids:
-            score += 0.15
-
-
-        # User history availability
-        if context.get("user"):
-            score += 0.05
-
-
-        # Avoid overconfidence
-        if action == "digest":
-            score -= 0.05
-
-
-        if action == "mute":
-            score += 0.05
-
-
-        # Keep between 0 and 1
-        score = max(
-            0,
-            min(score, 1)
+        confidence = scores.get(
+            message_type,
+            0.50
         )
 
 
-        return round(score, 2)
+        # Evidence improves confidence
+
+        if evidence_ids:
+            confidence += 0.05
+
+
+        # User context improves personalization
+
+        if context.get("user"):
+            confidence += 0.03
+
+
+        # Keep range 0-1
+
+        confidence = min(
+            confidence,
+            1.0
+        )
+
+
+        return round(
+            confidence,
+            2
+        )

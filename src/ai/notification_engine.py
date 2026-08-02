@@ -1,10 +1,6 @@
-import re
-
-
 class NotificationEngine:
     """
-    Decides message routing:
-    notify / digest / mute
+    Personalized WhatsApp notification routing engine.
     """
 
 
@@ -12,101 +8,202 @@ class NotificationEngine:
         pass
 
 
-    def detect_risk(self, text):
+    def detect_scam(self, text, context):
 
         if not text:
             return False
 
-        risky_keywords = [
-            "urgent payment",
+        text = text.lower()
+
+        scam_words = [
+            "otp",
+            "password",
             "verify account",
             "click here",
             "free money",
             "lottery",
-            "otp",
-            "password",
-            "bank"
+            "bank details",
+            "send money"
         ]
 
-        text = text.lower()
+        if any(word in text for word in scam_words):
+            return True
 
-        for word in risky_keywords:
-            if word in text:
+
+        business = context.get("business")
+
+
+        if business:
+
+            if (
+                not business.get("verified", False)
+                and
+                business.get("user_reports_30d", 0) > 5
+            ):
                 return True
+
 
         return False
 
 
 
-    def detect_urgency(self, text):
+    def detect_spam(self, text):
 
         if not text:
             return False
 
-        urgent_words = [
-            "urgent",
-            "emergency",
-            "immediately",
-            "today",
-            "deadline",
-            "asap",
-            "important"
+
+        spam_words = [
+            "subscribe",
+            "win",
+            "free",
+            "offer",
+            "discount",
+            "sale",
+            "coupon",
+            "limited time"
         ]
+
 
         text = text.lower()
 
+
         return any(
             word in text
-            for word in urgent_words
+            for word in spam_words
         )
 
 
 
-    def classify_type(self, message):
+    def detect_payment(self, text):
+
+        keywords = [
+            "payment",
+            "invoice",
+            "bill",
+            "refund",
+            "transaction",
+            "receipt",
+            "due amount"
+        ]
+
+
+        text = text.lower()
+
+
+        return any(
+            word in text
+            for word in keywords
+        )
+
+
+
+    def detect_urgent(self, text):
+
+        keywords = [
+            "urgent",
+            "emergency",
+            "asap",
+            "deadline",
+            "immediately",
+            "important"
+        ]
+
+
+        text = text.lower()
+
+
+        return any(
+            word in text
+            for word in keywords
+        )
+
+
+
+    def classify_type(
+        self,
+        message,
+        context
+    ):
 
         text = str(
-            message.get("message_text", "")
-        ).lower()
+            message.get(
+                "message_text",
+                ""
+            )
+        )
 
 
-        if self.detect_risk(text):
+        if self.detect_scam(
+            text,
+            context
+        ):
             return "scam"
 
 
-        if self.detect_urgency(text):
+
+        if self.detect_payment(text):
+            return "payment"
+
+
+
+        if self.detect_urgent(text):
             return "urgent"
 
 
-        if message.get("conversation_type") == "business":
 
-            if any(
-                word in text
-                for word in [
-                    "offer",
-                    "sale",
-                    "discount",
-                    "coupon"
-                ]
-            ):
+        if message.get(
+            "media_type"
+        ) == "image":
+
+            return "event"
+
+
+
+        if message.get(
+            "conversation_type"
+        ) == "business":
+
+
+            if self.detect_spam(text):
+
                 return "promotion"
+
 
             return "business_update"
 
 
 
-        if message.get("media_type") == "image":
-            return "event"
+        if self.detect_spam(text):
+
+            return "spam"
 
 
-        if message.get("forwarded_count", 0) > 0:
+
+        if message.get(
+            "forwarded_count",
+            0
+        ) > 0:
+
             return "forward"
 
 
+
         if len(text.strip()) < 5:
+
             return "greeting"
 
 
-        return "personal"
+
+        if message.get(
+            "conversation_type"
+        ) == "personal":
+
+            return "personal"
+
+
+
+        return "unknown"
 
 
 
@@ -117,9 +214,36 @@ class NotificationEngine:
     ):
 
 
-        # Safety first
         if message_type == "scam":
+
             return "mute"
+
+
+        if message_type == "spam":
+
+            return "mute"
+
+
+
+        membership = context.get(
+            "membership"
+        )
+
+
+        if membership:
+
+            if membership.get(
+                "group_muted_by_user",
+                False
+            ):
+
+                if message_type not in [
+                    "urgent",
+                    "payment"
+                ]:
+
+                    return "digest"
+
 
 
         user = context.get(
@@ -128,15 +252,16 @@ class NotificationEngine:
         )
 
 
-        # User ignores many notifications
-        if (
-            user and
-            user.get(
-                "notifications_dismissed_30d",
-                0
-            ) > 50
-        ):
+        dismissed = user.get(
+            "notifications_dismissed_30d",
+            0
+        )
+
+
+        if dismissed > 50:
+
             return "digest"
+
 
 
         if message_type in [
@@ -144,15 +269,21 @@ class NotificationEngine:
             "payment",
             "personal"
         ]:
+
             return "notify"
 
 
+
         if message_type in [
-            "promotion",
+            "event",
             "business_update",
-            "event"
+            "promotion",
+            "forward",
+            "greeting"
         ]:
+
             return "digest"
+
 
 
         return "mute"
@@ -161,24 +292,49 @@ class NotificationEngine:
 
     def generate_reason(
         self,
-        action,
-        message_type
+        message_type,
+        action
     ):
 
         reasons = {
 
-            "notify":
-            f"Important {message_type} message requiring attention",
+            "urgent":
+            "Urgent message detected requiring immediate attention",
 
-            "digest":
-            f"Useful {message_type} message that can wait",
+            "payment":
+            "Payment-related message that may require user action",
 
-            "mute":
-            f"Low priority or unsafe {message_type} message"
+            "scam":
+            "Suspicious message detected due to safety risk",
+
+            "personal":
+            "Personal conversation likely relevant to the user",
+
+            "business_update":
+            "Business update from a known account suitable for later review",
+
+            "promotion":
+            "Promotional content with lower priority",
+
+            "forward":
+            "Forwarded content with reduced urgency",
+
+            "spam":
+            "Low-value or unwanted message detected",
+
+            "greeting":
+            "Casual greeting message",
+
+            "event":
+            "Event-related media message"
 
         }
 
-        return reasons[action]
+
+        return reasons.get(
+            message_type,
+            f"{message_type} message routed as {action}"
+        )
 
 
 
@@ -188,8 +344,10 @@ class NotificationEngine:
         context
     ):
 
+
         message_type = self.classify_type(
-            message
+            message,
+            context
         )
 
 
@@ -200,8 +358,8 @@ class NotificationEngine:
 
 
         reason = self.generate_reason(
-            action,
-            message_type
+            message_type,
+            action
         )
 
 
