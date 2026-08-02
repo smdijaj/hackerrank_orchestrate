@@ -12,18 +12,14 @@ from src.ai.confidence import ConfidenceEngine
 from src.ai.llm_router import LLMRouter
 
 from src.output.output_generator import OutputGenerator
-
+from pathlib import Path
 
 DATASET_PATH = "dataset"
-
+MEDIA_PATH = Path("dataset/media")
 OUTPUT_PATH = "dataset/output.csv"
 
 
-image_reasoner = ImageReasoner()
-
-audio_reasoner = AudioReasoner()
-
-audio_processor = AudioPreprocessor()
+ 
 def main():
 
     print("[INFO] Loading messages...")
@@ -31,7 +27,14 @@ def main():
     messages = pd.read_csv(
         f"{DATASET_PATH}/messages.csv"
     )
+    images = pd.read_csv(
+    f"{DATASET_PATH}/images.csv"
+    )
 
+
+    voice_notes = pd.read_csv(
+    f"{DATASET_PATH}/voice_notes.csv"
+    )
 
     print("[INFO] Initializing components...")
 
@@ -106,23 +109,43 @@ def main():
 
         if message["media_type"] == "image":
         
-            image_path = None
-
-            media_context = image_reasoner.analyze(
-                image_path
-            )
-
-
+            image_row = images[
+                images["image_id"] == message["media_id"]
+            ]
+        
+        
+            if not image_row.empty:
+            
+                image_file = (
+                    MEDIA_PATH /
+                    image_row.iloc[0]["file_path"]
+                )
+        
+        
+                media_context = image_reasoner.analyze(
+                    str(image_file)
+                )
+        
+        
+        
         elif message["media_type"] == "voice":
         
-            voice_path = None
-
-            audio_info = None
-
-            media_context = audio_reasoner.analyze(
-                voice_path,
-                audio_info
-            )
+            voice_row = voice_notes[
+                voice_notes["voice_note_id"] == message["media_id"]
+            ]
+        
+        
+            if not voice_row.empty:
+            
+                voice_file = (
+                    MEDIA_PATH /
+                    voice_row.iloc[0]["file_path"]
+                )
+        
+        
+                media_context = audio_reasoner.analyze(
+                    str(voice_file)
+                )
         
         # AI decision
 
