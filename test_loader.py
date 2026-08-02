@@ -1,29 +1,9 @@
-from src.output.output_generator import OutputGenerator
+from src.ai.image_reasoner import ImageReasoner
 
+reasoner = ImageReasoner()
 
-generator = OutputGenerator(
-    "dataset/output.csv"
+result = reasoner.analyze(
+    "dataset/media/images/img_001.jpg"
 )
 
-
-generator.add_result(
-    "msg_001",
-    "notify",
-    "urgent",
-    "Important urgent message",
-    0.95,
-    "msg_10;msg_20"
-)
-
-
-generator.add_result(
-    "msg_002",
-    "mute",
-    "spam",
-    "Suspicious promotional message",
-    0.90,
-    "none"
-)
-
-
-generator.save()
+print(result)

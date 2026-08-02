@@ -1,25 +1,18 @@
 from pathlib import Path
+from PIL import Image
+import pytesseract
 
 
 class ImageReasoner:
-    """
-    Analyzes image messages and extracts useful signals.
-    """
-
-    def __init__(self):
-        pass
-
 
     def analyze(self, image_path):
-        """
-        Analyze image file.
-        """
 
         result = {
             "has_image": True,
             "image_exists": False,
             "image_type": "unknown",
-            "signals": []
+            "signals": [],
+            "extracted_text": ""
         }
 
 
@@ -38,35 +31,81 @@ class ImageReasoner:
         result["image_exists"] = True
 
 
-        extension = path.suffix.lower()
+        try:
 
+            image = Image.open(path)
 
-        if extension in [
-            ".png",
-            ".jpg",
-            ".jpeg"
-        ]:
             result["image_type"] = "image"
 
 
-        # Basic signals
-        filename = path.name.lower()
+            text = pytesseract.image_to_string(
+                image
+            )
 
 
-        keywords = [
-            "poster",
-            "offer",
-            "sale",
-            "event",
-            "notice",
-            "bill",
-            "invoice"
-        ]
+            text = text.lower()
+
+            result["extracted_text"] = text
 
 
-        for word in keywords:
-            if word in filename:
-                result["signals"].append(word)
+
+            categories = {
+
+                "payment": [
+                    "bill",
+                    "invoice",
+                    "payment",
+                    "receipt",
+                    "transaction",
+                    "amount",
+                    "due"
+                ],
+
+
+                "promotion": [
+                    "offer",
+                    "sale",
+                    "discount",
+                    "coupon",
+                    "deal"
+                ],
+
+
+                "event": [
+                    "event",
+                    "meeting",
+                    "function",
+                    "schedule",
+                    "notice"
+                ],
+
+
+                "urgent": [
+                    "urgent",
+                    "emergency",
+                    "immediately",
+                    "asap"
+                ]
+
+            }
+
+
+            for category, words in categories.items():
+
+                for word in words:
+
+                    if word in text:
+
+                        result["signals"].append(
+                            category
+                        )
+
+
+        except Exception as e:
+
+            result["signals"].append(
+                "image_processing_failed"
+            )
 
 
         return result

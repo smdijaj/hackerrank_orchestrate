@@ -100,7 +100,9 @@ class LLMRouter:
         # Decision engine
         result = self.notification_engine.route(
             message,
-            context
+            context,
+            media_context,
+            evidence_ids
         )
 
 

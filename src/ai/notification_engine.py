@@ -123,7 +123,8 @@ class NotificationEngine:
     def classify_type(
         self,
         message,
-        context
+        context,
+        media_context=None
     ):
 
         text = str(
@@ -132,7 +133,29 @@ class NotificationEngine:
                 ""
             )
         )
+                # Media based signals
 
+        if media_context:
+
+            signals = media_context.get(
+                "signals",
+                []
+            )
+
+
+            if "payment" in signals:
+
+                return "payment"
+
+
+            if "promotion" in signals:
+
+                return "promotion"
+
+
+            if "event" in signals:
+
+                return "event"
 
         if self.detect_scam(
             text,
@@ -206,11 +229,12 @@ class NotificationEngine:
         return "unknown"
 
 
-
+      
     def decide_action(
         self,
         message_type,
-        context
+        context,
+        evidence_ids=None
     ):
 
 
@@ -409,19 +433,23 @@ class NotificationEngine:
     def route(
         self,
         message,
-        context
+        context,
+        media_context=None,
+        evidence_ids=None
     ):
 
 
         message_type = self.classify_type(
             message,
-            context
+            context,
+            media_context
         )
 
 
         action = self.decide_action(
             message_type,
-            context
+            context,
+            evidence_ids
         )
 
 
