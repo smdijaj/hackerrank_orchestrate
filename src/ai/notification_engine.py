@@ -222,7 +222,48 @@ class NotificationEngine:
         if message_type == "spam":
 
             return "mute"
+                # Business relationship personalization
 
+        business_history = context.get(
+            "business_history"
+        )
+
+
+        if business_history:
+
+            allows_promotions = business_history.get(
+                "allows_promotions",
+                True
+            )
+
+
+            dismissed = business_history.get(
+                "messages_dismissed_30d",
+                0
+            )
+
+
+            replied = business_history.get(
+                "messages_replied_30d",
+                0
+            )
+
+
+            if message_type == "promotion":
+
+                if allows_promotions == False:
+
+                    return "mute"
+
+
+                if replied > 0:
+
+                    return "digest"
+
+
+                if dismissed > 10:
+
+                    return "mute"
 
 
         membership = context.get(
@@ -250,7 +291,34 @@ class NotificationEngine:
             "user",
             {}
         )
+                # Notification overload handling
 
+        notification_summary = context.get(
+            "notification_summary",
+            []
+        )
+
+
+        if notification_summary:
+
+            today_notifications = sum(
+                item.get(
+                    "notifications_sent",
+                    0
+                )
+                for item in notification_summary
+            )
+
+
+            if today_notifications > 50:
+
+                if message_type not in [
+                    "urgent",
+                    "payment",
+                    "scam"
+                ]:
+
+                    return "digest"
 
         dismissed = user.get(
             "notifications_dismissed_30d",

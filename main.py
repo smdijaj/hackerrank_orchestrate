@@ -98,8 +98,8 @@ def main():
 
             history["user_history"],
 
-            history["events"]
-
+            history["events"],
+            message
         )
         media_context = None
 
