@@ -55,7 +55,9 @@ def main():
         NotificationEngine(),
         ConfidenceEngine()
     )
+    image_reasoner = ImageReasoner()
 
+    audio_reasoner = AudioReasoner()
 
     output = OutputGenerator(
         OUTPUT_PATH
