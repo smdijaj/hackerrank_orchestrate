@@ -45,7 +45,7 @@ class TextPreprocessor:
 
     def word_count(self, text):
         """
-        Count number of words.
+        Count number of words and words.
         """
 
         return len(self.tokenize(text))
