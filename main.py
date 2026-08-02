@@ -16,7 +16,7 @@ from src.output.output_generator import OutputGenerator
 
 DATASET_PATH = "dataset"
 
-OUTPUT_PATH = "dataset/output_new.csv"
+OUTPUT_PATH = "dataset/output.csv"
 
 
 
