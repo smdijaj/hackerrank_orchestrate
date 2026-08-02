@@ -10,35 +10,48 @@ class AudioReasoner:
         pass
 
 
-    def analyze(self, audio_path, audio_info=None):
-        """
-        Analyze voice note.
-        """
+    def analyze(
+        self,
+        audio_path,
+        audio_info=None
+    ):
 
         result = {
+
             "has_audio": True,
+
             "audio_exists": False,
+
             "duration": None,
+
+            "transcript": "",
+
             "signals": []
+
         }
 
 
         if audio_path is None:
+
             result["has_audio"] = False
+
             return result
+
 
 
         path = Path(audio_path)
 
 
         if not path.exists():
+
             return result
+
 
 
         result["audio_exists"] = True
 
 
-        # Use information from audio_preprocessor
+
         if audio_info:
 
             result["duration"] = audio_info.get(
@@ -46,19 +59,86 @@ class AudioReasoner:
             )
 
 
+            transcript = audio_info.get(
+                "transcript",
+                ""
+            )
+
+
+            if transcript:
+
+                transcript = transcript.lower()
+
+                result["transcript"] = transcript
+
+
+
+                categories = {
+
+
+                    "payment": [
+                        "payment",
+                        "bill",
+                        "invoice",
+                        "money",
+                        "amount",
+                        "refund"
+                    ],
+
+
+                    "urgent": [
+                        "urgent",
+                        "emergency",
+                        "asap",
+                        "immediately"
+                    ],
+
+
+                    "event": [
+                        "meeting",
+                        "function",
+                        "event",
+                        "schedule"
+                    ],
+
+
+                    "promotion": [
+                        "offer",
+                        "sale",
+                        "discount"
+                    ]
+
+                }
+
+
+
+                for category, words in categories.items():
+
+                    for word in words:
+
+                        if word in transcript:
+
+                            result["signals"].append(
+                                category
+                            )
+
+
+
             if result["duration"]:
 
-                # Long voice notes may contain detailed information
                 if result["duration"] > 120:
+
                     result["signals"].append(
                         "long_voice_note"
                     )
 
-                # Very short voice notes are usually casual
+
                 elif result["duration"] < 5:
+
                     result["signals"].append(
                         "short_voice_note"
                     )
+
 
 
         return result

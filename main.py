@@ -2,7 +2,6 @@ import pandas as pd
 
 from src.ai.image_reasoner import ImageReasoner
 from src.ai.audio_reasoner import AudioReasoner
-from src.preprocessing.audio_preprocessor import AudioPreprocessor
 
 from src.retrieval.context_builder import ContextBuilder
 from src.retrieval.conversation_retriever import ConversationRetriever
@@ -17,7 +16,7 @@ from src.output.output_generator import OutputGenerator
 
 DATASET_PATH = "dataset"
 
-OUTPUT_PATH = "dataset/output.csv"
+OUTPUT_PATH = "dataset/output_new.csv"
 
 
 
@@ -36,20 +35,24 @@ def main():
     )
 
 
-    voice_notes = pd.read_csv(
-        f"{DATASET_PATH}/voice_notes.csv"
-    )
+    try:
+
+        audio_files = pd.read_csv(
+            f"{DATASET_PATH}/audio.csv"
+        )
+
+    except:
+
+        audio_files = pd.DataFrame()
 
 
 
-    print("[INFO] Initializing components...")
+    print("[INFO] Initializing AI components...")
 
 
     image_reasoner = ImageReasoner()
 
     audio_reasoner = AudioReasoner()
-
-    audio_processor = AudioPreprocessor()
 
 
 
@@ -90,7 +93,7 @@ def main():
 
 
         # -------------------------
-        # User / Group / Business Context
+        # Build context
         # -------------------------
 
         context = context_builder.build_context(
@@ -106,13 +109,12 @@ def main():
 
 
         # -------------------------
-        # Historical Retrieval
+        # Retrieve evidence
         # -------------------------
 
         history = retriever.retrieve(
             message
         )
-
 
 
         evidence_ids = ranker.rank(
@@ -126,75 +128,118 @@ def main():
 
 
         # -------------------------
-        # Media Understanding
+        # MEDIA PROCESSING
         # -------------------------
 
         media_context = None
 
 
 
+        # IMAGE
+
         if message["media_type"] == "image":
 
 
             image_row = images[
+
                 images["image_id"]
                 ==
                 message["media_id"]
+
             ]
-
-
-            image_path = None
 
 
             if not image_row.empty:
 
 
                 image_path = (
+
                     DATASET_PATH
-                    + "/"
-                    + image_row.iloc[0]["file_path"]
+                    +
+                    "/"
+                    +
+                    image_row.iloc[0]["file_path"]
+
                 )
 
 
-            media_context = image_reasoner.analyze(
-                image_path
-            )
+                media_context = image_reasoner.analyze(
+
+                    image_path
+
+                )
 
 
+                print(
+                    "IMAGE:",
+                    message["message_id"],
+                    media_context
+                )
+
+
+
+        # AUDIO
 
         elif message["media_type"] == "voice":
 
 
-            voice_row = voice_notes[
-                voice_notes["voice_note_id"]
-                ==
-                message["media_id"]
-            ]
+            audio_path = None
+
+            audio_info = None
 
 
-            voice_path = None
+            if not audio_files.empty:
 
 
-            if not voice_row.empty:
+                audio_row = audio_files[
+
+                    audio_files["audio_id"]
+                    ==
+                    message["media_id"]
+
+                ]
 
 
-                voice_path = (
-                    DATASET_PATH
-                    + "/"
-                    + voice_row.iloc[0]["file_path"]
-                )
+                if not audio_row.empty:
+
+
+                    audio_path = (
+
+                        DATASET_PATH
+                        +
+                        "/"
+                        +
+                        audio_row.iloc[0]["file_path"]
+
+                    )
+
+
+                    audio_info = (
+                        audio_row.iloc[0]
+                        .to_dict()
+                    )
 
 
 
             media_context = audio_reasoner.analyze(
-                voice_path,
-                None
+
+                audio_path,
+
+                audio_info
+
+            )
+
+
+            print(
+                "AUDIO:",
+                message["message_id"],
+                media_context
             )
 
 
 
         # -------------------------
-        # AI Routing Decision
+        # AI ROUTING
         # -------------------------
 
         result = router.predict(
@@ -212,7 +257,7 @@ def main():
 
 
         # -------------------------
-        # Save Output
+        # SAVE OUTPUT
         # -------------------------
 
         output.add_result(
@@ -227,15 +272,14 @@ def main():
 
             confidence=result["confidence"],
 
-            evidence_message_ids=result[
-                "evidence_message_ids"
-            ]
+            evidence_message_ids=
+            result["evidence_message_ids"]
 
         )
 
 
 
-        if index % 100 == 0:
+        if index % 20 == 0:
 
             print(
                 f"Processed {index} messages"
@@ -249,6 +293,7 @@ def main():
     print(
         "[INFO] Completed successfully"
     )
+
 
 
 

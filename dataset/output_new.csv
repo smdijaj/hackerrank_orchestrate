@@ -1,0 +1,111 @@
+message_id,action,message_type,reason,confidence,evidence_message_ids
+msg_023,notify,payment,Payment-related message that may require user action,0.93,message_0243;message_0011;message_0244;message_0242;message_0102
+msg_091,digest,personal,Personal conversation likely relevant to the user,0.83,message_0047;message_0380;message_0320;message_0218;message_0397
+msg_090,digest,personal,Personal conversation likely relevant to the user,0.83,message_0339;message_0340;message_0338
+msg_048,notify,urgent,Urgent message detected requiring immediate attention,0.98,message_0410;message_0270;message_0130;message_0150;message_0269
+msg_040,digest,forward,Forwarded content with reduced urgency,0.68,message_0367;message_0366;message_0259;message_0017;message_0136
+msg_075,digest,business_update,Business update from a known account suitable for later review,0.78,message_0234;message_0206;message_0205;message_0295;message_0376
+msg_005,digest,event,Event-related media message,0.78,message_0332;message_0390;message_0231;message_0382;message_0065
+msg_104,digest,personal,Personal conversation likely relevant to the user,0.83,message_0115;message_0232;message_0050;message_0383;message_0224
+msg_069,digest,forward,Forwarded content with reduced urgency,0.68,message_0246;message_0245;message_0064;message_0063;message_0005
+msg_107,mute,scam,Suspicious message detected due to safety risk,1.0,message_0368;message_0263;message_0214;message_0213;message_0053
+msg_070,mute,scam,Suspicious message detected due to safety risk,1.0,message_0368;message_0263;message_0214;message_0213;message_0053
+msg_003,digest,business_update,Business update from a known account suitable for later review,0.78,message_0371;message_0230;message_0031;message_0170;message_0169
+msg_099,digest,personal,Personal conversation likely relevant to the user,0.83,message_0055;message_0249;message_0228;message_0248;message_0362
+msg_008,digest,business_update,Business update from a known account suitable for later review,0.78,message_0297;message_0072;message_0071;message_0296;message_0298
+msg_092,notify,payment,Payment-related message that may require user action,0.93,message_0384;message_0346;message_0344;message_0345;message_0385
+msg_060,digest,event,Event-related media message,0.78,message_0176;message_0404;message_0284;message_0286;message_0175
+msg_004,digest,business_update,Business update from a known account suitable for later review,0.78,message_0246;message_0245;message_0064;message_0063;message_0005
+msg_030,digest,event,Event-related media message,0.78,message_0115;message_0232;message_0050;message_0383;message_0224
+msg_045,mute,spam,Low-value or unwanted message detected,0.98,message_0371;message_0230;message_0031;message_0170;message_0169
+msg_052,mute,scam,Suspicious message detected due to safety risk,1.0,message_0176;message_0404;message_0284;message_0286;message_0175
+msg_009,digest,unknown,unknown message routed as digest,0.58,message_0262;message_0074;message_0073;message_0186;message_0185
+msg_071,digest,unknown,unknown message routed as digest,0.58,message_0272;message_0109;message_0033;message_0110;message_0007
+msg_016,digest,forward,Forwarded content with reduced urgency,0.68,message_0251;message_0407;message_0411;message_0253;message_0162
+msg_065,digest,event,Event-related media message,0.78,message_0262;message_0074;message_0073;message_0186;message_0185
+msg_038,notify,urgent,Urgent message detected requiring immediate attention,0.98,message_0342;message_0408;message_0009;message_0343;message_0341
+msg_086,digest,business_update,Business update from a known account suitable for later review,0.78,message_0055;message_0249;message_0228;message_0248;message_0362
+msg_014,mute,promotion,Promotional content with lower priority,0.73,message_0367;message_0366;message_0259;message_0017;message_0136
+msg_094,digest,promotion,Promotional content with lower priority,0.73,message_0388;message_0391;message_0048;message_0223;message_0358
+msg_029,digest,event,Event-related media message,0.78,message_0332;message_0390;message_0231;message_0382;message_0065
+msg_105,notify,urgent,Urgent message detected requiring immediate attention,0.98,message_0156;message_0155;message_0409;message_0280;message_0279
+msg_002,digest,payment,Payment-related message that may require user action,0.93,message_0371;message_0230;message_0031;message_0170;message_0169
+msg_010,digest,business_update,Business update from a known account suitable for later review,0.78,message_0243;message_0011;message_0244;message_0242;message_0102
+msg_078,mute,scam,Suspicious message detected due to safety risk,1.0,message_0388;message_0391;message_0048;message_0223;message_0358
+msg_013,mute,spam,Low-value or unwanted message detected,0.98,message_0342;message_0408;message_0009;message_0343;message_0341
+msg_018,digest,forward,Forwarded content with reduced urgency,0.68,message_0243;message_0011;message_0244;message_0242;message_0102
+msg_044,mute,scam,Suspicious message detected due to safety risk,1.0,message_0055;message_0249;message_0228;message_0248;message_0362
+msg_032,digest,unknown,unknown message routed as digest,0.58,message_0176;message_0404;message_0284;message_0286;message_0175
+msg_106,digest,personal,Personal conversation likely relevant to the user,0.83,message_0234;message_0206;message_0205;message_0295;message_0376
+msg_006,notify,payment,Payment-related message that may require user action,0.93,message_0410;message_0270;message_0130;message_0150;message_0269
+msg_109,digest,unknown,unknown message routed as digest,0.58,message_0410;message_0270;message_0130;message_0150;message_0269
+msg_108,mute,scam,Suspicious message detected due to safety risk,1.0,message_0275;message_0276;message_0070;message_0069;message_0094
+msg_019,mute,scam,Suspicious message detected due to safety risk,1.0,message_0275;message_0276;message_0070;message_0069;message_0094
+msg_088,digest,greeting,Casual greeting message,0.63,message_0115;message_0232;message_0050;message_0383;message_0224
+msg_056,digest,unknown,unknown message routed as digest,0.58,message_0057;message_0226;message_0168;message_0106;message_0167
+msg_027,digest,event,Event-related media message,0.78,message_0272;message_0109;message_0033;message_0110;message_0007
+msg_050,digest,business_update,Business update from a known account suitable for later review,0.78,message_0156;message_0155;message_0409;message_0280;message_0279
+msg_083,digest,greeting,Casual greeting message,0.63,message_0324;message_0323;message_0325;message_0219
+msg_063,notify,urgent,Urgent message detected requiring immediate attention,0.98,message_0255;message_0037;message_0254;message_0134;message_0133
+msg_033,notify,urgent,Urgent message detected requiring immediate attention,0.98,message_0156;message_0155;message_0409;message_0280;message_0279
+msg_061,digest,forward,Forwarded content with reduced urgency,0.68,message_0246;message_0245;message_0064;message_0063;message_0005
+msg_020,notify,urgent,Urgent message detected requiring immediate attention,0.98,message_0332;message_0390;message_0231;message_0382;message_0065
+msg_017,digest,unknown,unknown message routed as digest,0.58,message_0318;message_0319;message_0317;message_0090;message_0089
+msg_058,digest,forward,Forwarded content with reduced urgency,0.68,message_0057;message_0226;message_0168;message_0106;message_0167
+msg_026,mute,scam,Suspicious message detected due to safety risk,1.0,message_0262;message_0074;message_0073;message_0186;message_0185
+msg_047,digest,unknown,unknown message routed as digest,0.58,message_0410;message_0270;message_0130;message_0150;message_0269
+msg_046,mute,scam,Suspicious message detected due to safety risk,1.0,message_0251;message_0407;message_0411;message_0253;message_0162
+msg_042,digest,unknown,unknown message routed as digest,0.58,message_0057;message_0226;message_0168;message_0106;message_0167
+msg_079,mute,scam,Suspicious message detected due to safety risk,1.0,message_0368;message_0263;message_0214;message_0213;message_0053
+msg_098,digest,personal,Personal conversation likely relevant to the user,0.83,message_0057;message_0226;message_0168;message_0106;message_0167
+msg_037,digest,unknown,unknown message routed as digest,0.58,message_0410;message_0270;message_0130;message_0150;message_0269
+msg_007,digest,unknown,unknown message routed as digest,0.58,message_0275;message_0276;message_0070;message_0069;message_0094
+msg_085,mute,scam,Suspicious message detected due to safety risk,1.0,message_0368;message_0263;message_0214;message_0213;message_0053
+msg_001,digest,unknown,unknown message routed as digest,0.58,message_0057;message_0226;message_0168;message_0106;message_0167
+msg_021,notify,payment,Payment-related message that may require user action,0.93,message_0410;message_0270;message_0130;message_0150;message_0269
+msg_028,digest,event,Event-related media message,0.78,message_0367;message_0366;message_0259;message_0017;message_0136
+msg_012,digest,forward,Forwarded content with reduced urgency,0.68,message_0246;message_0245;message_0064;message_0063;message_0005
+msg_064,notify,payment,Payment-related message that may require user action,0.93,message_0251;message_0407;message_0411;message_0253;message_0162
+msg_103,digest,personal,Personal conversation likely relevant to the user,0.83,message_0332;message_0390;message_0231;message_0382;message_0065
+msg_031,digest,event,Event-related media message,0.78,message_0055;message_0249;message_0228;message_0248;message_0362
+msg_057,digest,unknown,unknown message routed as digest,0.58,message_0371;message_0230;message_0031;message_0170;message_0169
+msg_087,digest,greeting,Casual greeting message,0.63,message_0388;message_0391;message_0048;message_0223;message_0358
+msg_067,notify,payment,Payment-related message that may require user action,0.93,message_0410;message_0270;message_0130;message_0150;message_0269
+msg_039,notify,payment,Payment-related message that may require user action,0.93,message_0255;message_0037;message_0254;message_0134;message_0133
+msg_082,digest,greeting,Casual greeting message,0.63,message_0047;message_0380;message_0320;message_0218;message_0397
+msg_066,digest,event,Event-related media message,0.78,message_0367;message_0366;message_0259;message_0017;message_0136
+msg_049,digest,event,Event-related media message,0.78,message_0153;message_0291;message_0154;message_0292;message_0290
+msg_015,mute,scam,Suspicious message detected due to safety risk,1.0,message_0368;message_0263;message_0214;message_0213;message_0053
+msg_051,mute,promotion,Promotional content with lower priority,0.73,message_0367;message_0366;message_0259;message_0017;message_0136
+msg_097,notify,urgent,Urgent message detected requiring immediate attention,0.98,message_0057;message_0226;message_0168;message_0106;message_0167
+msg_089,digest,personal,Personal conversation likely relevant to the user,0.83,message_0300;message_0299;message_0396;message_0392;message_0301
+msg_053,digest,event,Event-related media message,0.78,message_0251;message_0407;message_0411;message_0253;message_0162
+msg_059,mute,spam,Low-value or unwanted message detected,0.98,message_0368;message_0263;message_0214;message_0213;message_0053
+msg_024,mute,promotion,Promotional content with lower priority,0.73,message_0367;message_0366;message_0259;message_0017;message_0136
+msg_072,mute,scam,Suspicious message detected due to safety risk,1.0,message_0368;message_0263;message_0214;message_0213;message_0053
+msg_036,mute,scam,Suspicious message detected due to safety risk,1.0,message_0282;message_0008;message_0126;message_0125;message_0281
+msg_076,mute,scam,Suspicious message detected due to safety risk,1.0,message_0176;message_0404;message_0284;message_0286;message_0175
+msg_055,notify,urgent,Urgent message detected requiring immediate attention,0.98,message_0348;message_0347;message_0387;message_0166;message_0165
+msg_102,digest,personal,Personal conversation likely relevant to the user,0.83,message_0371;message_0230;message_0031;message_0170;message_0169
+msg_080,digest,unknown,unknown message routed as digest,0.58,message_0410;message_0270;message_0130;message_0150;message_0269
+msg_093,mute,scam,Suspicious message detected due to safety risk,1.0,message_0348;message_0347;message_0387;message_0166;message_0165
+msg_034,notify,urgent,Urgent message detected requiring immediate attention,0.98,message_0057;message_0226;message_0168;message_0106;message_0167
+msg_035,digest,business_update,Business update from a known account suitable for later review,0.78,message_0282;message_0008;message_0126;message_0125;message_0281
+msg_101,digest,personal,Personal conversation likely relevant to the user,0.83,message_0371;message_0230;message_0031;message_0170;message_0169
+msg_041,digest,business_update,Business update from a known account suitable for later review,0.78,message_0057;message_0226;message_0168;message_0106;message_0167
+msg_011,digest,forward,Forwarded content with reduced urgency,0.68,message_0057;message_0226;message_0168;message_0106;message_0167
+msg_110,notify,urgent,Urgent message detected requiring immediate attention,0.98,message_0047;message_0380;message_0320;message_0218;message_0397
+msg_095,notify,payment,Payment-related message that may require user action,0.93,message_0251;message_0407;message_0411;message_0253;message_0162
+msg_074,digest,payment,Payment-related message that may require user action,0.93,message_0388;message_0391;message_0048;message_0223;message_0358
+msg_073,notify,urgent,Urgent message detected requiring immediate attention,0.98,message_0251;message_0407;message_0411;message_0253;message_0162
+msg_054,mute,spam,Low-value or unwanted message detected,0.98,message_0388;message_0391;message_0048;message_0223;message_0358
+msg_068,digest,unknown,unknown message routed as digest,0.58,message_0289;message_0288;message_0192;message_0191;message_0287
+msg_100,notify,payment,Payment-related message that may require user action,0.93,message_0055;message_0249;message_0228;message_0248;message_0362
+msg_062,digest,event,Event-related media message,0.78,message_0410;message_0270;message_0130;message_0150;message_0269
+msg_096,digest,personal,Personal conversation likely relevant to the user,0.83,message_0353;message_0354;message_0405;message_0355
+msg_043,digest,forward,Forwarded content with reduced urgency,0.68,message_0410;message_0270;message_0130;message_0150;message_0269
+msg_077,digest,event,Event-related media message,0.78,message_0255;message_0037;message_0254;message_0134;message_0133
+msg_081,digest,greeting,Casual greeting message,0.63,message_0057;message_0226;message_0168;message_0106;message_0167
+msg_025,digest,business_update,Business update from a known account suitable for later review,0.78,message_0057;message_0226;message_0168;message_0106;message_0167
+msg_084,digest,business_update,Business update from a known account suitable for later review,0.78,message_0388;message_0391;message_0048;message_0223;message_0358
+msg_022,notify,payment,Payment-related message that may require user action,0.93,message_0410;message_0270;message_0130;message_0150;message_0269
