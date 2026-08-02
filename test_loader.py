@@ -1,35 +1,35 @@
-import pandas as pd
+from src.ai.llm_router import LLMRouter
+from src.ai.notification_engine import NotificationEngine
+from src.ai.confidence import ConfidenceEngine
 
-from src.retrieval.conversation_retriever import ConversationRetriever
-from src.retrieval.ranking import EvidenceRanker
 
-
-messages = pd.read_csv(
-    "dataset/messages.csv"
+router = LLMRouter(
+    NotificationEngine(),
+    ConfidenceEngine()
 )
 
 
-retriever = ConversationRetriever(
-    "dataset"
+message = {
+    "message_text":
+    "Your OTP is 123456. Do not share",
+    "conversation_type":
+    "personal",
+    "media_type":""
+}
+
+
+context = {
+    "user":{
+        "notifications_dismissed_30d":5
+    }
+}
+
+
+result = router.predict(
+    message,
+    context,
+    ["msg_10","msg_20"]
 )
 
 
-ranker = EvidenceRanker(
-    top_k=3
-)
-
-
-row = messages.iloc[0]
-
-
-result = retriever.retrieve(row)
-
-
-evidence = ranker.rank(
-    result["user_history"],
-    result["events"]
-)
-
-
-print("Evidence IDs:")
-print(evidence)
+print(result)
